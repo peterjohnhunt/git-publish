@@ -1,0 +1,26 @@
+#!/bin/bash
+
+source "$(git --exec-path)/git-sh-setup"
+
+USAGE="[major|minor|patch|version]"
+
+function _publish() {
+    if [[ $# == 1 ]]; then
+        VPATTERN='^[0-9]+\.[0-9]+\.[0-9]+'
+        if [[ $1 =~ $VPATTERN ]]; then
+            VERSION=$1
+            git add -A && git commit -m "v${VERSION} Pre-Release"
+            git push origin master
+            git tag -a v${VERSION} -m "Version ${VERSION}"
+            git push origin v$VERSION
+        elif [[ $1 == 'major' || $1 == 'minor' || $1 == 'patch' ]]; then
+            die "$1 not currently supported"
+        else
+            die "$1 is an invalid version number"
+        fi
+    else
+        usage
+    fi
+}
+
+_publish $1
