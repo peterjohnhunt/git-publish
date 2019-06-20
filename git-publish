@@ -9,7 +9,7 @@ function _publish() {
         VPATTERN='^[0-9]+\.[0-9]+\.[0-9]+'
         if [[ $1 =~ $VPATTERN ]]; then
             VERSION=$1
-            git add -A && git commit -m "v${VERSION} Pre-Release"
+            git commit -am "v${VERSION} Pre-Release"
             git push origin master
             git tag -a v${VERSION} -m "Version ${VERSION}"
             git push origin v$VERSION
