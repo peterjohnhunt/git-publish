@@ -8,6 +8,11 @@ function _publish() {
     if [[ $# == 1 ]]; then
         VPATTERN='^[0-9]+\.[0-9]+\.[0-9]+$'
         if [[ $1 =~ $VPATTERN ]]; then
+            BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+            if [[ "$BRANCH" != "master" ]]; then
+                echo 'Can only publish from master branch';
+                exit 1;
+            fi
             VERSION=$1
             git commit -am "v${VERSION} Pre-Release"
             git push origin master
