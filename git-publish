@@ -14,9 +14,9 @@ function _publish() {
                 exit 1;
             fi
             VERSION=$1
-            git commit -am "v${VERSION} Pre-Release"
-            git push origin $BRANCH
-            git tag -a v${VERSION} -m "Version ${VERSION}"
+            git commit -am "v${VERSION} Pre-Release" &&
+            git push origin $BRANCH &&
+            git tag -a v${VERSION} -m "Version ${VERSION}" &&
             git push origin v$VERSION
         elif [[ $1 == 'major' || $1 == 'minor' || $1 == 'patch' ]]; then
             die "$1 not currently supported"
